@@ -1,0 +1,18 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+    setup-build-deploy:
+        name: Setup, Build and Deploy
+        runs-on: ubuntu-latest
+        steps:
+        - name: Push to server
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.MAIN_SERVER_IP }}
+            username: ${{ secrets.MAIN_SERVER_USERNAME }}
+            password: ${{ secrets.MAIN_SERVER_PASSWORD }}
+            port: ${{ secrets.PORT }}
+            script: cd ${{ secrets.PROJECT_DEVEL_PATH }} && git pull origin main
